@@ -1079,3 +1079,72 @@ html,body{width:100%;max-width:100%}
   height:auto!important;
   object-fit:contain!important;
 }
+
+
+/* === FENUALV EXACT BRAND LOCK · 2026-10-27 === */
+.header .brand::before,
+.header .brand::after{
+  content:none!important;
+  display:none!important;
+}
+.page-light .header .brand{
+  width:300px!important;
+  min-width:300px!important;
+  height:84px!important;
+  overflow:visible!important;
+}
+.page-light .header .brand img{
+  display:block!important;
+  content:normal!important;
+  width:290px!important;
+  height:auto!important;
+  max-width:290px!important;
+  max-height:82px!important;
+  object-fit:contain!important;
+  object-position:left center!important;
+  background:transparent!important;
+  filter:none!important;
+}
+.page-ai .header .brand{
+  width:82px!important;
+  min-width:82px!important;
+  height:80px!important;
+}
+.page-ai .header .brand img{
+  display:block!important;
+  content:normal!important;
+  width:68px!important;
+  height:74px!important;
+  max-width:68px!important;
+  max-height:74px!important;
+  object-fit:contain!important;
+  background:transparent!important;
+}
+@media (min-width:1021px){
+  .page-light .header .nav-shell{
+    grid-template-columns:320px minmax(0,1fr)!important;
+    column-gap:26px!important;
+    min-height:92px!important;
+  }
+  .page-ai .header .nav-shell{
+    grid-template-columns:92px minmax(0,1fr)!important;
+    column-gap:24px!important;
+    min-height:92px!important;
+  }
+  .header .nav{
+    justify-content:center!important;
+    gap:clamp(18px,1.45vw,30px)!important;
+  }
+}
+@media (max-width:1020px){
+  .page-light .header .brand{width:235px!important;min-width:0!important;height:72px!important}
+  .page-light .header .brand img{width:225px!important;max-width:225px!important;max-height:68px!important}
+  .page-ai .header .brand{width:68px!important;min-width:68px!important;height:68px!important}
+  .page-ai .header .brand img{width:56px!important;height:61px!important}
+}
+@media (max-width:660px){
+  .page-light .header .brand{width:190px!important;height:62px!important}
+  .page-light .header .brand img{width:182px!important;max-width:182px!important;max-height:58px!important}
+  .page-ai .header .brand{width:58px!important;min-width:58px!important;height:60px!important}
+  .page-ai .header .brand img{width:49px!important;height:54px!important}
+}
