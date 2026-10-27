@@ -324,3 +324,137 @@ html,body{width:100%;max-width:100%}
 /* Protección extra para que los nodos del flow no se recorten */
 .hero-visual.has-center-flow{overflow:visible!important}
 .center-flow{overflow:visible!important}
+/* === FENUALV FINAL HEADER + HERO FIX · 2026-10-27 === */
+/* Restore the original, correct FENUALV asset. The previous embedded background
+   duplicated the mark and also hid the real <img>. */
+.brand{
+  width:auto!important;
+  height:auto!important;
+  min-width:0;
+  max-width:none;
+  background-image:none!important;
+  overflow:visible;
+}
+.brand img{
+  display:block!important;
+  width:clamp(220px,14vw,270px)!important;
+  max-width:100%;
+  height:auto!important;
+  object-fit:contain!important;
+}
+.footer-grid>div:first-child>img{
+  display:block!important;
+  width:220px!important;
+  max-width:100%;
+  height:auto!important;
+  object-fit:contain!important;
+  margin-bottom:18px;
+}
+.footer-grid>div:first-child::before{display:none!important}
+
+/* Desktop header: reserve a real column for the logo and center the navigation
+   in the remaining space, so neither can overlap the other. */
+@media (min-width:1021px){
+  .header .nav-shell{
+    display:grid!important;
+    grid-template-columns:minmax(230px,300px) minmax(0,1fr);
+    align-items:center;
+    column-gap:clamp(18px,2vw,34px);
+  }
+  .header .brand{
+    grid-column:1;
+    justify-self:start;
+  }
+  .header .nav{
+    position:static!important;
+    left:auto!important;
+    right:auto!important;
+    top:auto!important;
+    transform:none!important;
+    grid-column:2;
+    width:100%;
+    min-width:0;
+    margin-left:0!important;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:clamp(7px,.9vw,16px);
+    font-size:clamp(14px,.92vw,16px);
+    white-space:nowrap;
+  }
+  .header .nav>a,
+  .header .nav .nav-parent>button{
+    padding:12px clamp(6px,.55vw,10px);
+  }
+
+  /* Give more horizontal room to the visual side of the home hero. */
+  .hero-grid{
+    grid-template-columns:minmax(400px,.82fr) minmax(0,1.18fr)!important;
+    gap:clamp(30px,3.2vw,52px)!important;
+  }
+  .hero-visual.has-center-flow{
+    min-height:600px;
+    overflow:visible!important;
+  }
+
+  /* Photo/card stays clearly on the left. */
+  .hero-visual.has-center-flow .photo-panel{
+    left:-18px!important;
+    right:auto!important;
+    top:58px!important;
+    bottom:70px!important;
+    width:38%!important;
+    z-index:3!important;
+  }
+
+  /* Flow gets its own zone on the right: no overlap with the photo. */
+  .hero-visual.has-center-flow .center-flow{
+    left:auto!important;
+    right:-1%!important;
+    top:28px!important;
+    width:59%!important;
+    max-width:650px!important;
+    height:auto!important;
+    aspect-ratio:1/1!important;
+    z-index:5!important;
+  }
+  .hero-visual.has-center-flow .hero-surface{
+    right:0!important;
+    width:62%!important;
+    height:88%!important;
+    top:18px!important;
+  }
+}
+
+/* Large desktop: preserve the separation while letting both visuals breathe. */
+@media (min-width:1500px){
+  .header .nav-shell{
+    grid-template-columns:minmax(270px,330px) minmax(0,1fr);
+  }
+  .hero-visual.has-center-flow .photo-panel{
+    left:-28px!important;
+    width:39%!important;
+  }
+  .hero-visual.has-center-flow .center-flow{
+    right:0!important;
+    width:60%!important;
+    max-width:720px!important;
+  }
+}
+
+/* Tablet/mobile keep the existing stacked layout and show the real logo. */
+@media (max-width:1020px){
+  .brand{
+    background-image:none!important;
+    width:auto!important;
+    height:auto!important;
+  }
+  .brand img{
+    display:block!important;
+    width:215px!important;
+  }
+}
+@media (max-width:660px){
+  .brand img{width:175px!important}
+}
+
