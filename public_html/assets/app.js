@@ -113,3 +113,74 @@
   const revealNew=[...document.querySelectorAll('.transform-lab .reveal,.ai-showcase-grid.reveal,.graph-metric.reveal')];
   if('IntersectionObserver' in window){const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}}),{threshold:.1});revealNew.forEach(el=>ro.observe(el))}else revealNew.forEach(el=>el.classList.add('visible'));
 })();
+
+
+/* === MAKE AUTO ARTICLE ENHANCEMENT · 2026-10-27 === */
+(()=>{
+  const m=location.pathname.match(/^\/blog\/(\d{8}-\d{6})\/?$/);
+  if(!m)return;
+
+  const body=document.body;
+  body.classList.add('make-auto-article');
+
+  const main=document.querySelector('main');
+  if(!main)return;
+
+  const text=(main.innerText||'').replace(/\s+/g,' ').trim();
+  if(text.length<120)return;
+
+  const words=text.split(' ').filter(Boolean).length;
+  const minutes=Math.max(1,Math.ceil(words/220));
+
+  if(!document.querySelector('.make-article-progress')){
+    const progress=document.createElement('div');
+    progress.className='make-article-progress';
+    document.body.prepend(progress);
+    const update=()=>{
+      const h=document.documentElement;
+      const max=Math.max(1,h.scrollHeight-h.clientHeight);
+      progress.style.width=Math.min(100,(h.scrollTop/max)*100)+'%';
+    };
+    addEventListener('scroll',update,{passive:true});
+    update();
+  }
+
+  const subhero=document.querySelector('.subhero');
+  if(subhero&&!document.querySelector('.make-article-visual')){
+    const visual=document.createElement('div');
+    visual.className='make-article-visual reveal visible';
+    visual.innerHTML='<img src="/assets/hero-solar-full.jpg" alt="Energía, tecnología y eficiencia empresarial">';
+    subhero.insertAdjacentElement('afterend',visual);
+  }
+
+  let article=document.querySelector('.article-body');
+  if(!article){
+    const sections=[...main.querySelectorAll('section')];
+    article=sections.find(s=>s!==subhero&&s.querySelector('p,h2,h3'));
+    if(article)article=article.querySelector('.container')||article;
+  }
+  if(!article)return;
+
+  if(!article.querySelector('.make-reading-strip')){
+    const strip=document.createElement('div');
+    strip.className='make-reading-strip';
+    strip.innerHTML='<span>Lectura: '+minutes+' min</span><span>·</span><span>Publicado automáticamente por FENUALV</span><span>·</span><span>Contenido revisable por el equipo</span>';
+    article.prepend(strip);
+  }
+
+  const firstP=[...article.querySelectorAll('p')].find(p=>p.textContent.trim().length>70&&!p.closest('.make-reading-strip'));
+  if(firstP&&!article.querySelector('.make-highlight')){
+    const hi=document.createElement('aside');
+    hi.className='make-highlight';
+    const summary=firstP.textContent.trim().slice(0,260);
+    hi.innerHTML='<strong>En 30 segundos</strong><span>'+summary+(firstP.textContent.trim().length>260?'…':'')+'</span>';
+    firstP.insertAdjacentElement('afterend',hi);
+  }
+
+  if(!article.querySelector('.make-article-cta')){
+    const cta=document.createElement('div');
+    cta.className='make-highlight make-article-cta';
+    cta.innerHTML='<strong>¿Qué significa esto para tu empresa?</strong><span>En FENUALV analizamos cómo afecta cada cambio energético o tecnológico a costes, procesos y decisiones reales.</span><div class="actions" style="margin-top:16px"><a class="btn btn-primary magnetic" href="/contacto/">Consultar mi caso ↗</a><a class="btn btn-secondary magnetic" href="/blog/">Volver al blog</a></div>';
+    article.appendChild(cta);
+  }
+})();
