@@ -458,3 +458,98 @@ html,body{width:100%;max-width:100%}
   .brand img{width:175px!important}
 }
 
+
+
+/* === FENUALV USER ALIGNMENT PASS · 2026-10-27 14:01 === */
+/* Header: bring the navigation closer to the brand, make it larger, and give
+   each item more breathing room without losing the centered composition. */
+@media (min-width:1021px){
+  .header .nav-shell{
+    grid-template-columns:minmax(250px,285px) minmax(0,1fr)!important;
+    column-gap:clamp(10px,1.25vw,22px)!important;
+    padding-left:clamp(20px,2.5vw,42px)!important;
+    padding-right:clamp(20px,2.5vw,42px)!important;
+  }
+  .header .brand img{
+    width:clamp(225px,13vw,255px)!important;
+  }
+  .header .nav{
+    justify-content:flex-start!important;
+    gap:clamp(14px,1.15vw,22px)!important;
+    font-size:clamp(15.5px,1vw,17.5px)!important;
+  }
+  .header .nav>a,
+  .header .nav .nav-parent>button{
+    padding:13px clamp(7px,.55vw,11px)!important;
+  }
+  .header .nav-cta{
+    padding:14px 20px!important;
+  }
+
+  /* Home visual: shift the whole AI constellation left and scale it slightly up.
+     Keep the photo panel clear of the flow and preserve all outer nodes. */
+  .hero-grid{
+    grid-template-columns:minmax(390px,.78fr) minmax(620px,1.22fr)!important;
+    gap:clamp(24px,2.6vw,42px)!important;
+  }
+  .hero-visual.has-center-flow{
+    min-height:630px!important;
+    overflow:visible!important;
+  }
+  .hero-visual.has-center-flow .photo-panel{
+    left:-24px!important;
+    width:36%!important;
+    top:60px!important;
+    bottom:72px!important;
+  }
+  .hero-visual.has-center-flow .center-flow{
+    left:34%!important;
+    right:auto!important;
+    top:8px!important;
+    width:64%!important;
+    max-width:760px!important;
+    transform:none!important;
+  }
+  .hero-visual.has-center-flow .hero-surface{
+    left:32%!important;
+    right:auto!important;
+    width:66%!important;
+    top:8px!important;
+    height:92%!important;
+  }
+}
+
+@media (min-width:1450px){
+  .header .nav-shell{
+    grid-template-columns:minmax(260px,300px) minmax(0,1fr)!important;
+  }
+  .header .nav{
+    gap:clamp(16px,1.25vw,24px)!important;
+    font-size:clamp(16px,.94vw,18px)!important;
+  }
+  .hero-visual.has-center-flow .photo-panel{
+    left:-34px!important;
+    width:36%!important;
+  }
+  .hero-visual.has-center-flow .center-flow{
+    left:31%!important;
+    width:66%!important;
+    max-width:810px!important;
+  }
+  .hero-visual.has-center-flow .hero-surface{
+    left:30%!important;
+    width:68%!important;
+  }
+}
+
+/* Keep desktop node labels visible even when the flow grows. */
+@media (min-width:1021px){
+  .center-flow,
+  .center-flow svg,
+  .hero-visual.has-center-flow{
+    overflow:visible!important;
+  }
+  .cf-node.n2{right:1%!important}
+  .cf-node.n3{right:0!important}
+  .cf-node.n6{right:-1%!important}
+}
