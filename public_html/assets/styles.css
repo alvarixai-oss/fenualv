@@ -970,3 +970,112 @@ html,body{width:100%;max-width:100%}
   .page-ai .header .brand{width:58px!important;min-width:58px!important}
   .page-ai .header .brand img{width:48px!important;height:52px!important}
 }
+
+
+/* === FENUALV LOGO FINAL FIX · direct assets only · 2026-10-27 === */
+.header .brand::before,
+.header .brand::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+  border:0!important;
+  filter:none!important;
+}
+.header .brand{
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  padding:0!important;
+  margin:0!important;
+  background:none!important;
+  overflow:visible!important;
+}
+.header .brand img{
+  display:block!important;
+  content:normal!important;
+  max-width:100%!important;
+  object-fit:contain!important;
+  background:transparent!important;
+}
+
+/* Light pages: use the original complete FENUALV logo exactly once. */
+.page-light .header .brand{
+  width:232px!important;
+  min-width:232px!important;
+  height:76px!important;
+}
+.page-light .header .brand img{
+  width:220px!important;
+  height:auto!important;
+  max-height:72px!important;
+  filter:none!important;
+}
+
+/* Dark AI pages: use the transparent isotype only. */
+.page-ai .header .brand{
+  width:74px!important;
+  min-width:74px!important;
+  height:74px!important;
+}
+.page-ai .header .brand img{
+  width:60px!important;
+  height:64px!important;
+  max-width:60px!important;
+  max-height:64px!important;
+  object-fit:contain!important;
+  filter:drop-shadow(0 6px 10px rgba(0,0,0,.28))!important;
+}
+
+/* Keep logo and navigation in separate columns so they never overlap. */
+@media (min-width:1021px){
+  .page-light .header .nav-shell{
+    display:grid!important;
+    grid-template-columns:245px minmax(0,1fr)!important;
+    column-gap:28px!important;
+    min-height:88px!important;
+  }
+  .page-ai .header .nav-shell{
+    display:grid!important;
+    grid-template-columns:86px minmax(0,1fr)!important;
+    column-gap:24px!important;
+    min-height:88px!important;
+  }
+  .header .nav{
+    position:static!important;
+    transform:none!important;
+    width:100%!important;
+    min-width:0!important;
+    margin:0!important;
+    justify-content:center!important;
+    gap:clamp(14px,1.2vw,24px)!important;
+    font-size:clamp(15px,.95vw,17px)!important;
+    white-space:nowrap!important;
+  }
+  .header .nav>a,
+  .header .nav .nav-parent>button{
+    padding:12px 8px!important;
+  }
+}
+@media (max-width:1020px){
+  .page-light .header .brand{width:200px!important;min-width:0!important;height:68px!important}
+  .page-light .header .brand img{width:190px!important;max-height:64px!important}
+  .page-ai .header .brand{width:64px!important;min-width:64px!important;height:66px!important}
+  .page-ai .header .brand img{width:54px!important;height:58px!important}
+}
+@media (max-width:660px){
+  .page-light .header .brand{width:165px!important;height:60px!important}
+  .page-light .header .brand img{width:158px!important;max-height:56px!important}
+  .page-ai .header .brand{width:56px!important;min-width:56px!important;height:58px!important}
+  .page-ai .header .brand img{width:48px!important;height:52px!important}
+}
+
+/* Footer: also prevent old pseudo/logo replacement rules from duplicating the mark. */
+.footer-grid>div:first-child::before{content:none!important;display:none!important}
+.footer-grid>div:first-child>img{
+  display:block!important;
+  content:normal!important;
+  width:220px!important;
+  height:auto!important;
+  object-fit:contain!important;
+}
