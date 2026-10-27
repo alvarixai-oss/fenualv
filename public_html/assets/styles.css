@@ -212,3 +212,55 @@ body::selection{background:#dcb56a;color:#0d2d46}.page-bg{position:fixed;inset:0
   .hero.has-global-center-flow > .center-flow .cf-hub{width:165px;height:165px}
   .hero.has-global-center-flow > .center-flow .cf-node{min-width:108px;max-width:132px;padding:9px 11px;font-size:9.5px}
 }
+
+
+/* === FENUALV LAYOUT POLISH · 2026-10-27 === */
+html,body{width:100%;max-width:100%}
+.container{width:min(1600px,calc(100% - 56px));margin-left:auto;margin-right:auto}
+.header{padding:0;background:rgba(250,252,249,.88);border-bottom:1px solid rgba(13,45,70,.08);backdrop-filter:blur(22px) saturate(145%)}
+.page-ai .header{background:rgba(5,24,39,.88);border-bottom-color:rgba(255,255,255,.08)}
+.header .nav-shell{width:100%;max-width:none;min-height:96px;padding:0 clamp(24px,4vw,72px);border-radius:0;border-left:0;border-right:0;box-shadow:none;background:transparent}
+.page-ai .header .nav-shell{background:transparent;box-shadow:none}
+.brand img{width:clamp(235px,15vw,310px);height:auto;object-fit:contain;display:block}
+.hero{padding:70px 0 54px}
+.hero-grid{width:100%;grid-template-columns:minmax(0,1fr) minmax(520px,.98fr);gap:clamp(44px,5vw,88px);align-items:center}
+.hero-visual.has-center-flow{min-height:620px;overflow:visible}
+.hero-visual.has-center-flow .float-card{display:none!important}
+.hero-visual.has-center-flow .photo-panel{left:0;right:auto;top:54px;bottom:54px;width:40%;border-radius:30px;z-index:2}
+.hero-visual.has-center-flow .center-flow{left:auto;right:-1%;top:30px;width:72%;height:auto;aspect-ratio:1/1;transform:none;z-index:5}
+.hero-visual.has-center-flow .hero-surface{right:-3%;width:76%;height:90%;top:0}
+.footer img{width:230px;height:auto;object-fit:contain}
+
+@media(max-width:1200px){
+  .container{width:min(1240px,calc(100% - 40px))}
+  .header .nav-shell{padding:0 22px;min-height:88px}
+  .brand img{width:230px}
+  .hero-grid{grid-template-columns:minmax(0,1fr) minmax(460px,.95fr);gap:40px}
+  .hero-visual.has-center-flow .center-flow{right:-2%;width:74%}
+}
+
+@media(max-width:1020px){
+  .container{width:calc(100% - 36px)}
+  .header .nav-shell{width:100%;padding:0 20px;min-height:82px}
+  .brand img{width:215px}
+  .hero-grid{grid-template-columns:1fr;gap:42px}
+  .hero-visual.has-center-flow{min-height:690px}
+  .hero-visual.has-center-flow .photo-panel{left:0;right:0;top:0;width:100%;height:280px;bottom:auto}
+  .hero-visual.has-center-flow .center-flow{left:6%;right:6%;top:310px;width:88%;height:350px;aspect-ratio:auto;transform:none}
+  .hero-visual.has-center-flow .hero-surface{right:0;width:100%;height:80%;top:230px}
+}
+
+@media(max-width:660px){
+  .container{width:calc(100% - 28px)}
+  .topbar{height:auto;min-height:36px;padding:6px 0}
+  .topbar-inner{gap:10px;flex-wrap:wrap}
+  .header .nav-shell{padding:0 14px;min-height:76px}
+  .brand img{width:175px}
+  .hero{padding-top:46px}
+  .hero h1{font-size:clamp(44px,13vw,62px)}
+  .hero-visual.has-center-flow{min-height:670px}
+  .hero-visual.has-center-flow .photo-panel{height:245px;border-radius:24px}
+  .hero-visual.has-center-flow .center-flow{left:0;right:0;top:270px;width:100%;height:365px;transform:scale(.94)}
+  .footer img{width:190px}
+}
+
