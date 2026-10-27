@@ -49,8 +49,7 @@
       <div class="cf-node n3"><i></i>Informes</div><div class="cf-node n4"><i></i>Documentos</div>
       <div class="cf-node n5"><i></i>Procesos</div><div class="cf-node n6"><i></i>Captación</div>
       <div class="cf-caption">Un núcleo · múltiples automatizaciones</div>`;
-    const heroShell=heroVisual.closest('.hero');
-    if(heroShell){heroShell.classList.add('has-global-center-flow');heroShell.appendChild(flow)}else{heroVisual.appendChild(flow)}
+    heroVisual.appendChild(flow);
     if(fine&&!reduced){flow.addEventListener('pointermove',e=>{const r=flow.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;flow.style.transform=`perspective(900px) rotateX(${-y*3}deg) rotateY(${x*4}deg)`});flow.addEventListener('pointerleave',()=>flow.style.transform='')}
   }
 
