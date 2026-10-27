@@ -7,9 +7,9 @@ nav_ai='''<div class="nav-parent"><button>Inteligencia artificial</button><div c
 
 def shell(title, desc, content, ai=False, active=''):
     cls='page-ai' if ai else 'page-light'
-    logo_src='/assets/fenualv-ia-oficial.webp?v=20261027-2' if ai else '/assets/logo-fenualv-nuevo.webp?v=20261027-2'
+    logo_src='/assets/fenualv-ia-oficial.webp?v=20261027-3' if ai else '/assets/fenualv-home-exacto.webp?v=20261027-3'
     def active_cls(k):return ' class="active"' if active==k else ''
-    return f'''<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="{escape(desc, quote=True)}"><title>{escape(title)}</title><link rel="stylesheet" href="/assets/styles.css?v=logo-20261027-2"></head><body class="{cls}">
+    return f'''<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="{escape(desc, quote=True)}"><title>{escape(title)}</title><link rel="stylesheet" href="/assets/styles.css?v=logo-20261027-3"></head><body class="{cls}">
 <div class="page-bg"><canvas id="ambientCanvas"></canvas><div class="aurora-layer"></div><div class="light-rays"></div><div class="noise"></div></div><div class="cursor-glow"></div>
 <div class="topbar"><div class="container topbar-inner"><span>⌖ Ponferrada · Servicios en España</span><a href="tel:+34988508563">Hablemos: 988 50 85 63</a></div></div>
 <header class="header"><div class="container nav-shell"><a class="brand" href="/"><img src="{logo_src}" alt="FENUALV"></a><button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button><nav class="nav">{nav_energy}{nav_ai}<a href="/consulto-energetico/"{active_cls('about')}>Nosotros</a><a href="/colaboradores/"{active_cls('partners')}>Colaboradores</a><a href="/blog/"{active_cls('blog')}>Blog</a><a class="nav-cta magnetic" href="/contacto/">Hablemos ↗</a></nav></div></header>
