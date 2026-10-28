@@ -49,11 +49,16 @@
         const source=await fetch(url,{cache:'no-store'}).then(r=>r.ok?r.text():'');
         if(clean(source).length<120)return null;
         const doc=new DOMParser().parseFromString(source,'text/html');
-        const title=clean(doc.querySelector('h1')?.textContent)||clean(doc.querySelector('title')?.textContent?.replace(/\s*[·|-]\s*FENUALV.*$/i,''));
+        const raw=source.replace(/\r/g,'').trim();
+        const lines=raw.split('\n').map(x=>x.trim()).filter(Boolean);
+        const plainTitle=clean((lines[0]||'').replace(/^T[ií]tulo\s*:\s*/i,''));
+        const plainDesc=clean(lines.slice(1,5).filter(x=>!/^(Introducci[oó]n|Qu[eé]|Por qu[eé]|Contexto|Medidas|Conclusi[oó]n|Llamada)/i.test(x)).join(' '));
+        const title=clean(doc.querySelector('h1')?.textContent)||clean(doc.querySelector('title')?.textContent?.replace(/\s*[·|-]\s*FENUALV.*$/i,''))||plainTitle;
         if(!title||title.length<8)return null;
-        const desc=clean(doc.querySelector('meta[name="description"]')?.content)||clean(doc.querySelector('.lead')?.textContent)||clean(doc.querySelector('main p')?.textContent)||'Actualidad seleccionada y explicada por FENUALV.';
+        const desc=clean(doc.querySelector('meta[name="description"]')?.content)||clean(doc.querySelector('.lead')?.textContent)||clean(doc.querySelector('main p')?.textContent)||plainDesc||'Actualidad seleccionada y explicada por FENUALV.';
         const cat=clean(doc.querySelector('.eyebrow')?.textContent)||'Actualidad';
-        const words=clean(doc.body?.textContent).split(' ').filter(Boolean).length;
+        const textForCount=clean(doc.body?.textContent)||clean(raw);
+        const words=textForCount.split(' ').filter(Boolean).length;
         return {folder:d.name,title,desc:desc.slice(0,220),cat,minutes:Math.max(1,Math.ceil(words/220))};
       }catch{return null}
     }))).filter(Boolean);
