@@ -73,7 +73,7 @@
           <div class="make-post-meta"><span class="tag">${esc(p.cat)}</span><span>${esc(fmtFolder(p.folder))}</span><span>· ${p.minutes} min</span></div>
           <h3>${esc(p.title)}</h3>
           <p>${esc(p.desc)}</p>
-          <a href="/blog/${encodeURIComponent(p.folder)}/">Leer noticia <span>↗</span></a>
+          <a href="/blog/leer.html?post=${encodeURIComponent(p.folder)}">Leer noticia <span>↗</span></a>
         </div>
       </article>`).join('');
   }catch(e){
