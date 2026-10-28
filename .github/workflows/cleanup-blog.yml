@@ -1,0 +1,58 @@
+name: Limpiar noticias antiguas del blog
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'public_html/blog/**/index.html'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fenualv-blog-cleanup
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Conservar solo las 4 noticias automaticas mas recientes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --ff-only origin main
+          cd public_html/blog
+
+          mapfile -t dirs < <(
+            find . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' |
+            grep -E '^[0-9]{8}-[0-9]{6}(-[A-Za-z0-9-]+)?$' |
+            sort -r
+          )
+
+          if [ "${#dirs[@]}" -le 4 ]; then
+            echo "Ya hay 4 o menos noticias automaticas."
+            exit 0
+          fi
+
+          old_dirs=("${dirs[@]:4}")
+          printf 'Eliminando publicaciones antiguas:\n%s\n' "${old_dirs[@]}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git rm -r -- "${old_dirs[@]}"
+
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+
+          git commit -m "[blog-cleanup] Conservar solo las 4 noticias automaticas mas recientes"
+          git push origin main
