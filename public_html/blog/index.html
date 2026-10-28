@@ -40,7 +40,7 @@
   try{
     const dirs=await fetch(base,{headers:{Accept:'application/vnd.github+json'}}).then(r=>{if(!r.ok)throw new Error('repo');return r.json()});
     const automatic=(Array.isArray(dirs)?dirs:[])
-      .filter(x=>x.type==='dir'&&/^\d{8}-\d{6}(?:-[a-z0-9-]+)?$/i.test(x.name))
+      .filter(x=>x.type==='dir'&&/^\d{8}-\d{6}(?:-[a-z0-9-]+)?$/i.test(x.name)&&x.name>='20261028-113600')
       .sort((a,b)=>b.name.localeCompare(a.name))
       .slice(0,18);
     const posts=(await Promise.all(automatic.map(async d=>{
