@@ -172,8 +172,13 @@
   if(firstP&&!article.querySelector('.make-highlight')){
     const hi=document.createElement('aside');
     hi.className='make-highlight';
-    const summary=firstP.textContent.trim().slice(0,260);
-    hi.innerHTML='<strong>En 30 segundos</strong><span>'+summary+(firstP.textContent.trim().length>260?'…':'')+'</span>';
+    const fullText=firstP.textContent.trim();
+    const summary=fullText.slice(0,260);
+    const heading=document.createElement('strong');
+    const summaryText=document.createElement('span');
+    heading.textContent='En 30 segundos';
+    summaryText.textContent=summary+(fullText.length>260?'…':'');
+    hi.append(heading,summaryText);
     firstP.insertAdjacentElement('afterend',hi);
   }
 
