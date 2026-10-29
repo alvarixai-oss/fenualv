@@ -184,3 +184,28 @@
     article.appendChild(cta);
   }
 })();
+
+
+/* === FENUALV FOOTER BRAND SYNC · 2026-10-29 === */
+(()=>{
+  const footerLead=document.querySelector('.footer .footer-grid>div:first-child');
+  const headerBrand=document.querySelector('.header .brand');
+  if(!footerLead||!headerBrand||footerLead.querySelector('.footer-brand-clone'))return;
+
+  const oldLogo=footerLead.querySelector(':scope > img');
+  if(oldLogo)oldLogo.remove();
+
+  const clone=headerBrand.cloneNode(true);
+  clone.classList.add('footer-brand-clone');
+
+  const gradient=clone.querySelector('linearGradient[id]');
+  if(gradient){
+    const oldId=gradient.id;
+    const newId=oldId+'Footer';
+    gradient.id=newId;
+    const path=clone.querySelector('[fill="url(#'+oldId+')"]');
+    if(path)path.setAttribute('fill','url(#'+newId+')');
+  }
+
+  footerLead.prepend(clone);
+})();
