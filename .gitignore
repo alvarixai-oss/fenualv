@@ -1,0 +1,30 @@
+# Secrets and local environment files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+
+# Local/editor/OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs, caches and temporary files
+*.log
+.cache/
+tmp/
+temp/
+
+# Local deployment archives/backups
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.bak
+*.backup
