@@ -1,0 +1,110 @@
+{
+  "business": {
+    "name": "FENUALV",
+    "description": "Consultoría energética y automatización con inteligencia artificial para empresas y particulares.",
+    "whatsapp": "+34 679 176 667",
+    "telephone": "+34 988 50 85 63",
+    "email": "info@fenualv.com",
+    "address": "Av. el Castillo, 113, 24401 Ponferrada, León",
+    "service_area": "España"
+  },
+  "source": {
+    "repository": "alvarixai-oss/fenualv",
+    "reviewed_on": "2026-10-30",
+    "scope": "Páginas de servicios del repositorio. Se excluyen noticias, demostraciones animadas y ejemplos comerciales de ALVARIX."
+  },
+  "services": [
+    {
+      "id": "energia-empresas",
+      "name": "Consultoría energética para empresas",
+      "audience": "Autónomos, pymes y grandes empresas",
+      "description": "Análisis de consumos, contratos y necesidades de electricidad y gas; comparación de alternativas; propuestas de eficiencia; acompañamiento en la gestión del cambio y seguimiento.",
+      "qualifying_question": "¿La consulta es sobre tu factura actual, un cambio de contrato o una mejora de eficiencia?",
+      "source_paths": ["public_html/consultoria-energetica/index.html", "public_html/consultoria-energetica/consultor-energetico-empresas/index.html"]
+    },
+    {
+      "id": "energia-particulares",
+      "name": "Asesoramiento energético para particulares",
+      "audience": "Hogares y particulares",
+      "description": "Ayuda para entender facturas de luz y gas, comparar alternativas y valorar opciones adecuadas al consumo. El ahorro concreto requiere estudiar el caso.",
+      "qualifying_question": "¿Quieres revisar la luz, el gas o ambos suministros?",
+      "source_paths": ["public_html/consultoria-energetica/asesor-energetico-particulares/index.html"]
+    },
+    {
+      "id": "energias-renovables",
+      "name": "Energías renovables",
+      "description": "Orientación para valorar autoconsumo, solar fotovoltaica, aerotermia y otras soluciones eficientes, con estudio de viabilidad según el caso.",
+      "qualifying_question": "¿Qué solución estás valorando y para qué tipo de inmueble o negocio?",
+      "source_paths": ["public_html/consultoria-energetica/energias-renovables/index.html"]
+    },
+    {
+      "id": "recepcion-ia",
+      "name": "Recepción IA 24/7",
+      "description": "Agentes para responder preguntas frecuentes, recoger datos, clasificar consultas y derivar a una persona según las reglas del negocio. La disponibilidad del agente no implica atención humana continua.",
+      "qualifying_question": "¿En qué canal recibes las consultas y qué necesita resolver tu equipo con más frecuencia?",
+      "source_paths": ["public_html/inteligencia-artificial/recepcion-ia/index.html"]
+    },
+    {
+      "id": "correo-inteligente",
+      "name": "Correo inteligente",
+      "description": "Clasificación y priorización de mensajes, etiquetas y categorías, extracción de información y preparación de borradores o acciones.",
+      "qualifying_question": "¿Qué tareas del correo te consumen más tiempo y qué servicio de correo utilizáis?",
+      "source_paths": ["public_html/inteligencia-artificial/correo-inteligente/index.html"]
+    },
+    {
+      "id": "automatizacion-procesos",
+      "name": "Automatización de procesos",
+      "description": "Conexión de herramientas, reglas y validaciones, traslado o carga de archivos y actualizaciones de CRM. Se define qué pasos se automatizan y cuáles necesitan revisión humana.",
+      "qualifying_question": "¿Qué tarea repetís y entre qué herramientas se hace ahora?",
+      "source_paths": ["public_html/inteligencia-artificial/automatizacion-procesos/index.html"]
+    },
+    {
+      "id": "captacion-seguimiento",
+      "name": "Captación y seguimiento",
+      "description": "Registro y organización de oportunidades comerciales, clasificación por interés, recordatorios y secuencias de seguimiento adaptadas al proceso.",
+      "qualifying_question": "¿Dónde recibís las oportunidades y cómo hacéis actualmente el seguimiento?",
+      "source_paths": ["public_html/inteligencia-artificial/captacion-seguimiento/index.html"]
+    },
+    {
+      "id": "documentos-datos",
+      "name": "Documentos y datos",
+      "description": "Lectura de PDFs y formularios, extracción y validación de campos, estructuración de información y traslado a hojas de cálculo o CRM, según las integraciones que se acuerden.",
+      "qualifying_question": "¿Qué documentos recibís y a qué herramienta necesitáis llevar sus datos?",
+      "source_paths": ["public_html/inteligencia-artificial/documentos-datos/index.html"]
+    },
+    {
+      "id": "informes-automaticos",
+      "name": "Informes automáticos",
+      "description": "Recogida y consolidación de datos, cálculo de indicadores, resúmenes e informes operativos con la periodicidad que se configure.",
+      "qualifying_question": "¿Qué información necesitas resumir y con qué frecuencia?",
+      "source_paths": ["public_html/inteligencia-artificial/informes-automaticos/index.html"]
+    }
+  ],
+  "unknowns": [
+    "Precios y presupuestos personalizados",
+    "Plazos de implantación de cada proyecto",
+    "Ahorro económico o resultados garantizados",
+    "Integraciones concretas todavía no validadas",
+    "Subvenciones, financiación y condiciones contractuales",
+    "Estado de expedientes o datos privados de clientes"
+  ],
+  "human_consultation": {
+    "timezone": "Europe/Madrid",
+    "days": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday"],
+    "start": "08:00",
+    "end": "20:00",
+    "sunday_available": false,
+    "must_finish_by_end": true,
+    "booking_url": null,
+    "duration_minutes": null,
+    "status": "pending_calendar_connection",
+    "offer_booking_at_any_time": true,
+    "require_customer_acceptance_before_link": true,
+    "requirements": [
+      "Aplicar el horario en el calendario de reservas, no solo en las instrucciones del modelo.",
+      "Comprobar ocupación real antes de ofrecer un hueco.",
+      "No confirmar una reserva hasta que el calendario la haya creado.",
+      "Enviar al cliente el enlace real de reserva cuando no se pueda resolver la consulta."
+    ]
+  }
+}

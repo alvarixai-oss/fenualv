@@ -1,0 +1,62 @@
+/* Contacto directo con WhatsApp Business, independiente del JavaScript del sitio. */
+.whatsapp-float {
+  position: fixed;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  z-index: 45;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #128c4a;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 6px 22px rgb(0 0 0 / 22%);
+  transition: transform .2s ease, background-color .2s ease;
+  animation: whatsapp-pulse 2.8s ease-out 3;
+}
+.whatsapp-float img {
+  display: block;
+  width: 28px;
+  height: 28px;
+  max-width: none;
+}
+.whatsapp-float:hover {
+  background: #075e36;
+  transform: translateY(-3px);
+}
+.whatsapp-float:focus-visible {
+  outline: 3px solid #0b2740;
+  outline-offset: 4px;
+}
+.whatsapp-float-label {
+  position: absolute;
+  right: calc(100% + 12px);
+  padding: 9px 13px;
+  border: 1px solid rgb(255 255 255 / 25%);
+  border-radius: 999px;
+  background: #075e36;
+  color: #fff;
+  font: 600 13px/1.3 system-ui, sans-serif;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 12%);
+}
+@keyframes whatsapp-pulse {
+  0%, 100% { box-shadow: 0 6px 22px rgb(0 0 0 / 22%), 0 0 0 0 rgb(37 211 102 / 0%); }
+  35% { box-shadow: 0 6px 22px rgb(0 0 0 / 22%), 0 0 0 9px rgb(37 211 102 / 22%); }
+  70% { box-shadow: 0 6px 22px rgb(0 0 0 / 22%), 0 0 0 16px rgb(37 211 102 / 0%); }
+}
+@media (max-width: 660px) {
+  .whatsapp-float {
+    right: max(14px, env(safe-area-inset-right));
+    bottom: max(14px, env(safe-area-inset-bottom));
+  }
+  .whatsapp-float-label { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-float { animation: none; transition: none; }
+  .whatsapp-float:hover { transform: none; }
+}
