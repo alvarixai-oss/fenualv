@@ -1,0 +1,13 @@
+export const handoff='Para atender esta consulta con precisión, escribe a gestion@fenualv.com indicando que ya has hablado con el chatbot de FENUALV y explicando brevemente tu consulta. Si quieres una cita, el equipo te confirmará el día y la hora por correo.';
+export const normalize=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+export function localAnswer(question,k){
+ const q=normalize(question);
+ if(/\b(cita|reunion|presupuesto|precio|cuesta|tarifa|expediente|contrato firmado|reclamacion|humano|persona|plazo|garantiz|subvencion)\w*\b/.test(q))return {answer:handoff,handoff:true,sources:[]};
+ if(/^(hola|buenas|buenos dias|buenas tardes|buenas noches|gracias)[!. ]*$/.test(q))return {answer:'Hola, soy el asistente virtual de FENUALV. Puedo ayudarte con nuestros servicios de energía e inteligencia artificial. ¿Qué necesitas saber?',sources:[]};
+ if(/\b(telefono|direccion|ubicacion|donde estais|donde estan|contacto)\b/.test(q))return {answer:`Puedes contactar en el ${k.business.telephone}. Nuestra dirección es ${k.business.address}. Para consultas que requieran revisión, escribe a gestion@fenualv.com indicando que ya has hablado con el chatbot.`,sources:['/contacto/']};
+ if(/que (haceis|ofreceis|servicios)|vuestros servicios|a que os dedicais/.test(q))return {answer:k.business.description+' Ofrecemos asesoramiento energético, renovables, recepción IA, correo inteligente, automatización de procesos, captación y seguimiento, tratamiento de documentos e informes automáticos.',sources:['/consultoria-energetica/','/inteligencia-artificial/']};
+ const terms=[['energia-empresas',/empresa|negocio|pyme|autonomo/,/luz|gas|factura|energia|consumo|electric/],['energia-particulares',/casa|hogar|particular|vivienda|factura|luz|gas/,/luz|gas|factura|energia|consumo|electric/],['energias-renovables',/solar|placa|fotovolta|aeroterm|renovable|autoconsumo/],['recepcion-ia',/chatbot|recepcion|asistente|atencion|whatsapp|bot\b/],['correo-inteligente',/correo|email|outlook|gmail|bandeja/],['automatizacion-procesos',/proceso|automatiz|herramienta|crm|tarea repet/],['captacion-seguimiento',/captacion|seguimiento|lead|oportunidad|venta/],['documentos-datos',/documento|pdf|formulario|extraer|extraccion/],['informes-automaticos',/informe|reporte|indicador|resumen|briefing/]];
+ const matches=terms.filter(([,a,b])=>a.test(q)&&(!b||b.test(q))).map(([id])=>k.services.find(s=>s.id===id)).filter(Boolean);
+ if(!matches.length)return {answer:handoff,handoff:true,sources:[]};
+ return {answer:'Según la información de nuestra web:\n\n'+matches.slice(0,2).map(s=>s.name+': '+s.description).join('\n\n'),sources:[...new Set(matches.slice(0,2).flatMap(s=>s.source_paths.map(p=>'/'+p.replace('public_html/','').replace('index.html',''))))]};
+}

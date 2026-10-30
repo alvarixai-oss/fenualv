@@ -1,0 +1,1 @@
+{"functions":{"api/chat.mjs":{"maxDuration":30,"includeFiles":"assets/chat-*.json"}}}

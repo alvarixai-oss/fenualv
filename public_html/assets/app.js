@@ -214,3 +214,6 @@
 
   footerLead.prepend(clone);
 })();
+
+// Integrated FENUALV web assistant.
+{ const chatScript=document.createElement("script"); chatScript.src="/assets/chat.js?v=20261030-web1"; chatScript.defer=true; document.head.append(chatScript); }
