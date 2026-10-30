@@ -1,3 +1,4 @@
+import {getVercelOidcToken,verifyVercelOidcToken} from '@vercel/oidc';
 import {readFileSync} from 'node:fs';
 import {handoff,localAnswer} from '../assets/chat-engine.mjs';
 const pages=JSON.parse(readFileSync(new URL('../assets/chat-pages.json',import.meta.url)));
@@ -14,7 +15,8 @@ export default async function handler(req,res){
  const usage=clients.get(key)||{start:now,count:0};if(++usage.count>10)return res.status(429).json({error:'Espera un minuto antes de enviar otra consulta.'});clients.set(key,usage);
  const fallback=localAnswer(question,knowledge);
  if(/\b(cita|reuni[oó]n|presupuesto|precio|cuesta|expediente|humano)\b/i.test(question)||/^(hola|gracias)[!. ]*$/i.test(question))return res.status(200).json({...fallback,mode:'website'});
- const token=process.env.AI_GATEWAY_API_KEY||process.env.VERCEL_OIDC_TOKEN;
+ let token=process.env.AI_GATEWAY_API_KEY;
+ if(!token&&process.env.VERCEL){try{const candidate=await getVercelOidcToken();await verifyVercelOidcToken(candidate,{projectId:'prj_EX5QcoJ6J82bZlkoVcwTsAwVzCYw',ownerId:'team_SbTeDOgz8eubZ5S9ncAuPEUw',environment:'production'});token=candidate;}catch{res.setHeader('X-Fenualv-AI-Status','identity-unavailable');}}
  if(!token){res.setHeader('X-Fenualv-AI-Status','missing-auth');return res.status(200).json({...fallback,mode:'website'});}
  const history=Array.isArray(body.history)?body.history.slice(-6).filter(m=>m&&['user','assistant'].includes(m.role)&&typeof m.content==='string').map(m=>({role:m.role,content:m.content.slice(0,2000)})):[];
  try{
