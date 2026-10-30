@@ -1,28 +1,34 @@
-# WhatsApp de FENUALV
+# Agente WhatsApp FENUALV
 
-## Web
+Implementación del receptor Meta y respuestas basadas en 21 páginas de la web versionada. No está activado hasta configurar Meta, almacenamiento de deduplicación y validar una conversación real.
 
-El botón enlaza a `https://wa.me/34679176667` con este mensaje preparado:
+## Ejecutar y desplegar
 
-> Hola FENUALV, vengo de vuestra web y tengo una consulta.
+- Desde la raíz del repositorio: `python3 automation/whatsapp/scripts/ingest.py`. Regenerar tras cada cambio del sitio. Excluye blog/editorial y ejemplos como fuentes comerciales; la base no rastrea cambios externos automáticamente.
+- Pruebas: `cd automation/whatsapp && npm test`. Son simuladas, no una prueba real de WhatsApp ni de la calidad del modelo.
+- Desplegar esta carpeta como servicio separado (Root Directory `automation/whatsapp`, framework Other, sin Build Command; `lib/pages.json` ya generado), para mantener la web existente.
+- Callback: `/api/whatsapp`. Debe ser público para Meta; la firma HMAC autentica cada evento. No exponer `lib`, conocimiento privado o credenciales como archivos estáticos.
 
-El visitante tiene que pulsar Enviar en WhatsApp. Abrir el enlace no envía el mensaje y no activa respuestas automáticas. El botón funciona sin JavaScript; su estilo y su icono están en `public_html/assets/whatsapp.css` y `public_html/assets/whatsapp.svg`.
+## Configuración privada necesaria
 
-## Preparado para el asistente
+En las variables cifradas del proyecto, nunca en Git/chat:
 
-- `knowledge.json`: servicios de energía e IA extraídos de las páginas del repositorio, contacto y límites de la información disponible.
-- `SYSTEM_PROMPT.md`: trato al cliente, uso de la base y derivación a una consulta humana.
-- Horario solicitado: lunes a sábado de 08:00 a 20:00 en `Europe/Madrid`, con la cita terminada antes del cierre.
+- `META_APP_SECRET`: secreto de la app Meta.
+- `WHATSAPP_VERIFY_TOKEN`: secreto aleatorio compartido con la configuración del webhook.
+- `WHATSAPP_ACCESS_TOKEN`: token autorizado de la cuenta WhatsApp.
+- `WHATSAPP_PHONE_NUMBER_ID`: ID del número real, no el teléfono escrito.
+- `META_GRAPH_VERSION`: versión habilitada en la app Meta, con formato `vXX.X`.
+- `UPSTASH_REDIS_REST_URL` y `UPSTASH_REDIS_REST_TOKEN`: almacenamiento para deduplicar eventos entre instancias.
+- `AI_GATEWAY_MODEL`: `openai/gpt-4.1-mini`, verificado en catálogo 2026-10-30. Autenticación con OIDC de Vercel o `AI_GATEWAY_API_KEY` fuera de Vercel; requiere acceso/crédito al modelo.
 
-## Pendiente para activar el automatismo
+Registrar callback y verify token en Meta; suscribir `messages` y la app a la cuenta WhatsApp. Comprobar que el número de la web (+34 679 176 667) es el número conectado; no migrarlo ni borrarlo sin revisar el alta.
 
-1. Comprobar si el número está registrado en WhatsApp Business Platform o únicamente en la aplicación WhatsApp Business del móvil. El segundo caso requiere configurar una conexión compatible con la plataforma; no borrar ni migrar la cuenta sin revisar el procedimiento adecuado.
-2. Configurar el receptor de mensajes y el envío mediante la API oficial de Meta o un proveedor autorizado. Verificar los eventos entrantes y evitar respuestas duplicadas por reintentos.
-3. Conectar el proveedor del modelo y cargar la base y las instrucciones anteriores. Mantener todas las claves en las credenciales del servidor o del orquestador, nunca en HTML, JavaScript público ni Git.
-4. Conectar el calendario de la persona que atiende y crear un tipo de consulta con lunes a sábado de 08:00 a 20:00, domingo cerrado y zona `Europe/Madrid`. Definir la duración y excluir eventos ocupados.
-5. Guardar la URL real de ese tipo de consulta en la configuración de la integración. No basta con indicar el horario al modelo.
-6. Probar con un remitente autorizado: pregunta sobre cada rama de servicios, pregunta sin respuesta en la base, petición de una persona, calendario ocupado, sábado, domingo y final de jornada. Activar el bot solo después de comprobar recepción, respuesta y reserva reales.
+## Conducta y límites
 
-El número por sí solo no proporciona acceso a la cuenta de Meta, al proveedor del modelo ni a una agenda. La parte de automatización permanece pendiente de esas conexiones.
+Solo contesta texto; adjuntos reciben solicitud de resumen escrito. Citas y consultas sin respuesta se derivan a gestion@fenualv.com, indicando que el cliente ya habló con el chatbot. No envía correo ni reserva. No mantiene historial de conversación en esta versión. Cada respuesta exige rutas de fuentes existentes; esta comprobación no demuestra por sí sola que cada afirmación esté respaldada, por lo que hace falta evaluación real del modelo antes de activar.
 
-Referencias oficiales: [enlaces de WhatsApp](https://faq.whatsapp.com/5913398998672934), [WhatsApp Business Platform](https://developers.facebook.com/docs/whatsapp/cloud-api/), [horarios en Calendly](https://calendly.com/help/how-to-set-your-availability).
+HMAC sobre cuerpo original, filtro de número, límite de cuerpo y ventana de 24 h. Redis retiene hashes de IDs y estado durante 7 días, sin texto ni teléfono. Un envío con resultado de red ambiguo se marca `uncertain` y requiere revisión, para evitar duplicados. No se garantiza entrega exactamente una vez. Revisar alertas de 503 y casos `uncertain`; no activar sin monitorización. No hay límite de gasto por remitente: configurar presupuesto del modelo antes de producción.
+
+## Prueba real pendiente
+
+Comprobar verificación Meta, pregunta de energía, pregunta IA, pregunta desconocida, cita, adjunto, firma falsa, evento repetido y caída del modelo. Confirmar recepción y respuesta en el móvil, no solo éxito del despliegue.

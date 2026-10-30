@@ -1,0 +1,1 @@
+{"name":"fenualv-whatsapp-agent","private":true,"type":"module","scripts":{"test":"node --test","build":"python3 scripts/ingest.py"},"engines":{"node":">=22"}}

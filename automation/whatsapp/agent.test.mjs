@@ -1,0 +1,18 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createHmac} from 'node:crypto';
+import {answer,HANDOFF,validateAnswer} from './lib/agent.mjs';
+import handler,{validSignature,incoming} from './api/whatsapp.js';
+const body=Buffer.from('{"object":"whatsapp_business_account"}');
+test('validates signed exact bytes',()=>{const sig='sha256='+createHmac('sha256','secret').update(body).digest('hex');assert(validSignature(body,sig,'secret'));assert(!validSignature(Buffer.from('{}'),sig,'secret'));});
+test('rejects missing and malformed signatures',()=>{for(const s of [null,'','sha256=x'])assert(!validSignature(body,s,'secret'));});
+test('only accepts configured number',()=>{const b={object:'whatsapp_business_account',entry:[{changes:[{field:'messages',value:{metadata:{phone_number_id:'123'},messages:[{id:'a'}]}}]}]};assert.equal(incoming(b,'123').length,1);assert.equal(incoming(b,'456').length,0);});
+test('ignores delivery receipts',()=>assert.deepEqual(incoming({object:'whatsapp_business_account',entry:[{changes:[{field:'messages',value:{metadata:{phone_number_id:'123'},statuses:[{}]}}]}]},'123'),[]));
+test('appointment routed without invoking AI',async()=>assert.equal(await answer('Quiero una cita',{},()=>{throw Error('must not call')}),HANDOFF));
+test('unknown sources are not accepted',()=>assert.equal(validateAnswer({handoff:false,answer:'Invented',source_paths:['fake']}),HANDOFF));
+test('missing evidence routes to team',()=>assert.equal(validateAnswer({handoff:false,answer:'Invented',source_paths:[]}),HANDOFF));
+test('handoff always includes chatbot disclosure',()=>{assert.match(HANDOFF,/gestion@fenualv.com/);assert.match(HANDOFF,/ya has hablado con el chatbot/);});
+test('source-backed result returned',async()=>{const reply=await answer('Qué servicios ofrecéis',{AI_GATEWAY_API_KEY:'test'},async()=>({ok:true,json:async()=>({choices:[{message:{content:JSON.stringify({handoff:false,answer:'Consultoría energética.',source_paths:['index.html']})}}]})}));assert.equal(reply,'Consultoría energética.');});
+test('model outage safely routes to team',async()=>assert.equal(await answer('Servicios',{AI_GATEWAY_API_KEY:'test'},async()=>({ok:false})),HANDOFF));
+test('bad model JSON safely routes to team',async()=>assert.equal(await answer('Servicios',{AI_GATEWAY_API_KEY:'test'},async()=>({ok:true,json:async()=>({choices:[{message:{content:'invalid'}}]})})),HANDOFF));
+test('verification requires token and returns challenge',async()=>{process.env.WHATSAPP_VERIFY_TOKEN='test-only';const res={setHeader(){},status(n){this.code=n;return this;},send(s){this.body=s;return this;}};await handler({method:'GET',url:'/?hub.mode=subscribe&hub.verify_token=test-only&hub.challenge=42'},res);assert.equal(res.code,200);assert.equal(res.body,'42');await handler({method:'GET',url:'/?hub.mode=subscribe&hub.verify_token=wrong'},res);assert.equal(res.code,403);delete process.env.WHATSAPP_VERIFY_TOKEN;});
