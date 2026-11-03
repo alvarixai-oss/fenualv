@@ -1,0 +1,12 @@
+(() => {
+  const root=document.getElementById('waBot'); if(!root)return;
+  const toggle=document.getElementById('waBotToggle'), close=document.getElementById('waBotClose'), panel=document.getElementById('waBotPanel'), body=document.getElementById('waBotBody'), form=document.getElementById('waBotForm'), input=document.getElementById('waBotInput'), quick=document.getElementById('waQuick'), wa=document.getElementById('waOpenWhatsapp');
+  const number='34679176667';
+  const open=()=>{root.classList.add('is-open');toggle.setAttribute('aria-expanded','true');panel.setAttribute('aria-hidden','false');setTimeout(()=>input.focus(),150)};
+  const shut=()=>{root.classList.remove('is-open');toggle.setAttribute('aria-expanded','false');panel.setAttribute('aria-hidden','true')};
+  toggle.addEventListener('click',()=>root.classList.contains('is-open')?shut():open()); close.addEventListener('click',shut);
+  function add(text,user=false){const d=document.createElement('div');d.className='wa-message '+(user?'wa-message-user':'wa-message-bot');d.textContent=text;body.appendChild(d);body.scrollTop=body.scrollHeight}
+  function answer(msg){const m=msg.toLowerCase(); if(/persona|humano|llamar|asesor|cita|reun/.test(m)) return 'Claro. Puedes continuar por WhatsApp y el equipo de FENUALV te atenderá. El horario humano es de lunes a sábado, de 08:00 a 20:00.'; if(/energ|factura|luz|gas|ahorr|tarifa/.test(m)) return 'Podemos revisar tu situación energética, comparar alternativas y ayudarte a reducir costes. Si quieres, continúa por WhatsApp y cuéntanos si es para empresa o particular.'; if(/ia|automat|correo|recepci|proceso|document|informe/.test(m)) return 'FENUALV ofrece automatización e IA para recepción 24/7, correo inteligente, procesos, seguimiento, documentos e informes. Cuéntame qué tarea quieres automatizar y te orientaré.'; return 'Puedo ayudarte con energía, automatización e IA. Si tu consulta necesita un especialista, continúa por WhatsApp y la derivamos al equipo de FENUALV.'}
+  function send(msg){msg=(msg||'').trim();if(!msg)return;add(msg,true);input.value='';if(quick)quick.style.display='none';wa.href='https://wa.me/'+number+'?text='+encodeURIComponent('Hola FENUALV, vengo de vuestra web. Mi consulta es: '+msg);setTimeout(()=>add(answer(msg),false),320)}
+  form.addEventListener('submit',e=>{e.preventDefault();send(input.value)}); if(quick)quick.addEventListener('click',e=>{const b=e.target.closest('[data-message]');if(b)send(b.dataset.message)});
+})();
