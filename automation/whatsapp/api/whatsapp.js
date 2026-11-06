@@ -60,11 +60,20 @@ export default async function handler(req,res){
       let sending=false;
       try{
         const response=m.type==='text'?await answer(m.text?.body||'',env):'Solo puedo responder consultas escritas. Resume tu pregunta por texto. '+HANDOFF;
+        console.log('AI response prepared for WhatsApp');
         // Persist before delivery. An ambiguous network failure must not cause repeated customer messages.
         await state(['SET',key,'uncertain','EX',604800],env);sending=true;
         const r=await fetch(`https://graph.facebook.com/${env.META_GRAPH_VERSION}/${env.WHATSAPP_PHONE_NUMBER_ID}/messages`,{method:'POST',headers:{Authorization:`Bearer ${env.WHATSAPP_ACCESS_TOKEN}`,'Content-Type':'application/json'},signal:AbortSignal.timeout(10000),body:JSON.stringify({messaging_product:'whatsapp',to:m.from,type:'text',text:{body:response,preview_url:false}})});
-        if(!r.ok){console.error('Meta rejected response status:',r.status);await state(['DEL',key],env);throw new Error('Meta rejected response');}
+        console.log('Meta send response status:',r.status);
+        if(!r.ok){
+          let metaErrorCode='unknown';
+          try{const e=await r.json();metaErrorCode=String(e?.error?.code??'unknown');}catch{}
+          console.error('Meta rejected response status/code:',r.status,metaErrorCode);
+          await state(['DEL',key],env);
+          throw new Error('Meta rejected response');
+        }
         await state(['SET',key,'sent','EX',604800],env);
+        console.log('WhatsApp reply sent successfully');
       }catch(error){if(!sending)await state(['DEL',key],env);console.error('WhatsApp delivery requires review; no customer content logged');throw error;}
     }
     return res.status(200).send('EVENT_RECEIVED');
