@@ -1,1 +1,15 @@
-{"name":"fenualv-whatsapp-agent","private":true,"type":"module","scripts":{"test":"node --test","build":"python3 scripts/ingest.py"},"engines":{"node":">=22"}}
+{
+  "name": "fenualv-whatsapp-agent",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "build": "python3 scripts/ingest.py"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@vercel/oidc": "4.0.0"
+  }
+}
