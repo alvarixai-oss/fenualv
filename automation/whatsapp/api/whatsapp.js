@@ -59,7 +59,7 @@ export default async function handler(req,res){
       if(!await state(['SET',key,'processing','NX','EX',120],env))return res.status(503).send('Processing');
       let sending=false;
       try{
-        const response=m.type==='text'?await answer(m.text?.body||'',env):'Solo puedo responder consultas escritas. Resume tu pregunta por texto. '+HANDOFF;
+        const response=m.type==='text'?await answer(m.text?.body||'',env,m.from):'Solo puedo responder consultas escritas. Resume tu pregunta por texto. '+HANDOFF;
         console.log('AI response prepared for WhatsApp');
         // Persist before delivery. An ambiguous network failure must not cause repeated customer messages.
         await state(['SET',key,'uncertain','EX',604800],env);sending=true;
