@@ -55,7 +55,7 @@ export default async function handler(req,res){
       // Never send a freeform response outside the customer's 24-hour window.
       const timestamp=Number(m.timestamp);if(!Number.isFinite(timestamp)||Date.now()/1000-timestamp>86400||timestamp>Date.now()/1000+300)continue;
       const key='fenualv:wa:'+createHash('sha256').update(m.id).digest('hex');
-      const state=await state(['GET',key],env);if(state==='sent'||state==='uncertain')continue;
+      const deliveryState=await state(['GET',key],env);if(deliveryState==='sent'||deliveryState==='uncertain')continue;
       if(!await state(['SET',key,'processing','NX','EX',120],env))return res.status(503).send('Processing');
       let sending=false;
       try{
