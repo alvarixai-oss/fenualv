@@ -12,11 +12,14 @@ function localAnswer(question){
   if(/que (haceis|ofreceis|servicios)|vuestros servicios|a que os dedicais|que servicios ofrece/.test(q))
     return 'FENUALV ofrece dos grandes líneas de servicio: consultoría energética e inteligencia artificial. En energía ayudamos a empresas y particulares a analizar consumos, comparar alternativas y reducir costes, además de valorar soluciones renovables. En IA ofrecemos recepción 24/7, correo inteligente, automatización de procesos, captación y seguimiento, tratamiento de documentos y datos, e informes automáticos.';
 
-  if(/empresa|negocio|pyme|autonomo|grandes empresas/.test(q) && !/precio|cuesta|presupuesto|tarifa/.test(q))
-    return 'Para empresas, FENUALV trabaja tanto en energía como en automatización. Podemos revisar contratos, consumos y alternativas energéticas para reducir costes, y también automatizar tareas repetitivas con IA: recepción 24/7, correo inteligente, procesos, captación y seguimiento, documentos e informes.';
+  if(/(pdf|documento|formulario|extraer|extraccion|datos)/.test(q) && /(crm|pasar|volcar|copiar|cargar|actualizar|automatiz)/.test(q))
+    return 'Sí. Ese caso encaja directamente con una automatización de FENUALV: podemos leer los PDFs, extraer los campos necesarios, validar la información y cargarla automáticamente en vuestro CRM, evitando el trabajo manual de copiar y pegar. El flujo se adapta a vuestras reglas y puede dejar revisión humana solo en los casos dudosos.';
 
   if(/documento|pdf|formulario|extraer|extraccion|datos/.test(q))
     return 'Sí. FENUALV puede automatizar el tratamiento de documentos y datos: lectura de PDFs y formularios, extracción de campos, validación de información y actualización de hojas de cálculo o CRM. El flujo se adapta a tus reglas y mantiene puntos de control humano cuando sea necesario.';
+
+  if(/empresa|negocio|pyme|autonomo|grandes empresas/.test(q) && !/precio|cuesta|presupuesto|tarifa|documento|pdf|crm|correo|email|automatiz|captacion|lead|informe|renovable|energia|luz|gas/.test(q))
+    return 'Para empresas, FENUALV trabaja tanto en energía como en automatización. Podemos revisar contratos, consumos y alternativas energéticas para reducir costes, y también automatizar tareas repetitivas con IA: recepción 24/7, correo inteligente, procesos, captación y seguimiento, documentos e informes.';
 
   if(/correo|email|outlook|gmail|bandeja/.test(q))
     return 'FENUALV ofrece correo inteligente con IA para analizar mensajes entrantes, clasificarlos, detectar prioridades, extraer información, preparar borradores de respuesta y activar tareas en otros sistemas.';
