@@ -12,7 +12,7 @@ export async function answer(text,env=process.env,fetcher=fetch){
   if(/\b(cita|reservar|reuni[oó]n|presupuesto|humano|persona real)\b/i.test(text)) return HANDOFF;
   if(!text?.trim() || text.length>4000) return HANDOFF;
   const token=env.AI_GATEWAY_API_KEY||env.VERCEL_OIDC_TOKEN;
-  if(!token) throw new Error('AI authentication missing');
+  if(!token) return HANDOFF;
   try{
     const r=await fetcher('https://ai-gateway.vercel.sh/v1/chat/completions',{
       method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},signal:AbortSignal.timeout(20000),
